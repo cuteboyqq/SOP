@@ -1,0 +1,31 @@
+Hello, Alister
+
+ 
+
+Since SDK7 is old, you have to implement/manage the following by yourself:
+
+1.       Build flexidag for second NN (eg. ResNet) with Raw input mode (USR_SUPERDAG_TYPE = 5)
+
+è Since we only transfer the pyramid address, the real data could be overwritten since it is a ring buffer internally
+
+2.      Save the desired pyramid level YUV data
+
+è Currently, RTOS transfers the picinfo (memio_source_recv_picinfo_t) to linux to run flexidag
+
+è You can check the function GetFrame(…)@cam_util.c
+
+3.      Construct raw input with the YUV frame
+
+è Warp the YUV data into raw input strcture (memio_source_recv_raw_t)
+
+è You can check CV25_SDK75_AN_FlexiDAG.pdf to find more details
+
+4.      Send AMBA_ROI_CONFIG_MSG before you send any raw input to flexidag
+
+è Use AmbaCV_FlexidagSendMsg() before AmbaCV_FlexidagRun()
+
+ 
+
+Regards,
+
+Che-Hou

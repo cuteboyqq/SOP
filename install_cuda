@@ -1,0 +1,122 @@
+https://zhuanlan.zhihu.com/p/388619179
+
+引言
+新入手了一台RTX3060,参考这篇博客 
+https://blog.csdn.net/kingfoulin/article/details/98872965 ，
+我成功搭建了深度学习环境.
+
+首先 RTX3060显卡只支持cuda11以上的版本
+考虑到pytorch-gpu不支持cuda11.1以上版本
+我将安装 cuda11.1以及cudnn8.2.0
+下载
+nvidia驱动下载网址
+    https://www.nvidia.com/Download/index.aspx?lang=cn
+cuda下载网址
+    https://developer.nvidia.com/cuda-toolkit-archive
+cudnn下载网址
+    https://developer.nvidia.com/rdp/cudnn-archive
+下载版本
+    nvidia可运行  lshw -numeric -C display  查看自己版本，进行下载
+    cuda 选择 CUDA Toolkit 11.1.0 
+    cudnn 选择 Download cuDNN v8.2.1 (June 7th, 2021), for CUDA 11.x
+我下载的版本
+    NVIDIA-Linux-x86_64-460.84.run
+    cuda_11.1.0_455.23.05_linux.run
+    cudnn-11.3-linux-x64-v8.2.0.53.tgz
+① 安装ssh服务指令
+这一步可以跳过，我个人喜欢在自己笔记本上操作指令
+    安装SSH服务  sudo apt-get install ssh 
+    启动SSH服务  sudo /etc/init.d/ssh start
+    修改SSH配置文件  sudo vim /etc/ssh/sshd_config
+        PermitRootLogin without-password 修改为PermitRootLogin yes
+    重启SSH服务  service ssh restart
+    buntu16.0.4LTS出现键盘异常，输入上下左右按键，显示A，B，C，D
+    sudo apt-get install vim-gtk
+② 安装 nvidia 显卡驱动
+整个流程请参考 https://blog.csdn.net/kingfoulin/article/details/98872965
+必须注意，安装时命令如下
+    sudo bash ./NVIDIA-Linux-x86_64-460.84.run --no-opengl-files
+如果没有--no-opengl-files，会使linux系统出现循环登录问题，无法进入使用界面
+③ 安装 cuda11.1
+sudo sh cuda_11.1.0_455.23.05_linux.run
+    第一个选项’是否安装驱动‘，选择no，上一步已经安装过了
+安装nvcc 
+  sudo apt install nvidia-cuda-toolkit
+sudo vim ~/.bashrc  加入以下内容
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.1/lib64
+  export PATH=$PATH:/usr/local/cuda-11.1/bin
+  export CUDA_HOME=$CUDA_HOME:/usr/local/cuda-11.1
+更新
+    source ~/.bashrc
+④ 安装 cudnn8.2.0
+和该博客不同的是，cudnn8.2.0版本的include目录，文件数量不再时1个，所以要加*
+建立软连接
+  sudo cp cuda/include/cudnn*    /usr/local/cuda-11.1/include
+  sudo cp cuda/lib64/libcudnn*    /usr/local/cuda-11.1/lib64
+  sudo chmod a+r /usr/local/cuda-11.1/include/cudnn*   /usr/local/cuda-11.1/lib64/libcudnn*
+⑤ 安装python以及opencv
+① 安装python3.7
+    更新系统
+        sudo  apt-get  update
+        sudo  apt-get  upgrade
+    安装python依赖环境
+        sudo apt-get install -y build-essential libsqlite3-dev sqlite3 bzip2 libbz2-dev zlib1g-dev libssl-dev libffi-dev git wget liblzma-dev
+    下载解压 python3.7.3
+        wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
+        tar zxvf Python-3.7.3.tgz
+        rm Python-3.7.3.tgz
+    编译安装
+        cd Python-3.7.3
+        sudo ./configure
+        sudo make -j8
+        sudo make install
+    修改python源
+        vim ~/.pip/pip.conf
+        加入以下代码
+            [global]
+            index-url = https://pypi.douban.com/simple/
+
+            [install]
+            trusted-host=mirrors.cloud.aliyuncs.com
+        升级pip源
+            sudo pip3 install --upgrade pip
+② 安装opencv3.4.5
+    下载
+        https://github.com/opencv/opencv/releases/tag/3.4.5
+     安装依赖
+        sudo apt-get install zlib1g-dev libssl-dev  libffi-dev libgtk2.0-dev pkg-config  libavcodec-dev  libavformat-dev libswscale-dev cmake
+        sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+        sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev liblapacke-dev
+        sudo apt-get install libxvidcore-dev libx264-dev
+        sudo apt-get install libatlas-base-dev gfortran 
+    创建构建目录并切换到它
+        mkdir -p build && cd build
+    配置
+        cmake -D WITH_IPP=OFF ../opencv-3.4.5
+    安装
+        sudo cmake --build .
+        sudo make install
+⑥ 安装pytorch
+pip3 install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+安装完后进行测试
+import torch
+print(2.0)
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# Assume that we are on a CUDA machine, then this should print a CUDA device:
+print(device)
+
+x = torch.Tensor([2.1])
+xx = x.cuda()
+print(xx)
+
+# CUDNN TEST
+from torch.backends import cudnn
+
+print('cudann is ' + str(cudnn.is_acceptable(xx)))
+输出
+2.0
+cuda:0
+tensor([2.1000], device='cuda:0')
+cudann is True
+即为成功

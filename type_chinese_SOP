@@ -1,0 +1,7 @@
+1. sudo apt install ibus-chewing
+2. settings -> Region & Language  
+3. + , others , choose Chinese(Chewing)
+4. sudo reboot
+
+
+https://medium.com/rick-x-coding/%E5%9C%A8-ubuntu-18-04-lts-%E7%89%88%E4%B8%8A%E5%AE%89%E8%A3%9D-%E6%96%B0%E9%85%B7%E9%9F%B3-%E6%B3%A8%E9%9F%B3%E8%BC%B8%E5%85%A5%E6%B3%95-b059672afdc4

@@ -1,0 +1,59 @@
+router
+telnet
+192.168.66.1
+
+
+arp a
+裝置插網路線接上router
+再打一次 arp a
+新多出來的ip 就是 device的ip
+
+192.168.66.186
+
+telnet 192.168.66.XX (裝置的ip)
+
+帳號： pi
+
+密碼：
+Sb12345678
+
+get camera:
+===============================
+vcgencmd get_camera
+
+
+taking picture:
+=============================
+raspistill -v -o test0.jpg
+
+Filming video:
+=============================
+raspivid -o  myvideo.h264 --width 1280 --height 1024 --framerate 30 --timeout 10000
+
+
+=======================================
+lsblk
+blkid /dev/mmcblk*
+sudo fdisk -l
+
+
+use wifi
+=================================
+cd  /etc/wpa_supplicant
+nano wap_supplicant.conf (or use vi)
+
+iwconfig
+iw dev wlo1 info
+
+sudo raspi-config
+
+nmtui
+
+用一般的樹莓派 /etc/wpa_supplicant  vi wpa_supplicant.conf
+
+將新的樹莓派 改成衣模一樣的設定後,重開機 sudo reboot
+
+然後  在新的樹莓派打 ifoncifg找到wifi的ip 就可以用ip SSH連線上了（無線）
+
+
+python3.8 -m pip install torch==1.7.0+cpu torchvision==0.8.1+cpu torchaudio==0.7.0 -f https://download.pytorch.org/whl/torch_stable.html

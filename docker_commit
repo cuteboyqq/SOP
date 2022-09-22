@@ -1,0 +1,1 @@
+docker commit -m "test" bf8d4e8a7859 ali/test:test

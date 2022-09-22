@@ -1,0 +1,42 @@
+https://www.myfreax.com/how-to-install-and-use-docker-on-ubuntu-20-04/
+
+
+=========================================================================
+把image另外儲存成檔案
+Docker除了可以將版本放在registry之外，也提供將整個image儲存到檔案的方式，下面指令可以快速地將image儲存到tar檔...
+
+# docker save  couchdb12 > couchdb12.tar
+實際檢測這個檔案的大小，大約260M左右... 還滿符合couchdb大小的 :D
+
+# du -sh couchdb12.tar 
+260M    couchdb12.tar
+除了用導向的方式，該指令也支援--output跟-o的方式指定檔案
+
+# docker save -o couchdb12.tar couchdb12
+或是
+
+# docker save --output couchdb12.tar couchdb12
+或是指定檔案格式
+
+# docker save couchdb12 | gzip > couchdb12.tgz
+# docker export couchdb12 | gzip > couchdb12.tgz
+從檔案回復Image
+保存好檔案之後，可以透過import或load的方式將備份的檔案重新載入local的docker環境，讓不同的主機得以使用同一個未納管在版本庫中的Image檔案。
+
+# docker load [tar file]
+載入檔案指定
+
+# gunzip -c mycontainer.tgz | docker load
+或是使用docker import
+
+# cat [tar file] | docker import - [image name]
+如果import的部分是一個資料夾，可以用這樣的方式:
+
+# cd [the folder need to import]
+# sudo tar -c . | docker import - [image name]
+而，docker import也支援使用http的url
+
+sudo docker import http://example.com/exampleimage.tgz
+參考資料
+https://docs.docker.com/reference/commandline/cli/
+=====================================================================================

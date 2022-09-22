@@ -1,0 +1,28 @@
+This repository maintains the source codes for Argos camcorder with computer vision (CV) enabled.
+
+(1) Build the full image (RTOS+Linux) for the first time:
+./build_vzc_pv2_ov2778_ov2718.sh
+
+Once the image is built and flashed to Argos. Remember to copy the .argos_debug file (ls -las to check the hidden file) to Argos SD card.
+Otherwise, WNC app might delete your Linux applications on the SD card.
+
+(2) Just to rebuild rtos image (clean build):
+rm -fr rtos/output; rm -fr rtos/output.64/
+source rtos/build/maintenance/env/env_set.sh
+source rtos/refapp/svc/env/refapp-svc-env
+cd rtos; make refapp/svc/wnc_rtos_vzc_pv2_ov2778_ov2718_defconfig
+make diags
+make
+
+(3) Burn the firmware to Argos
+  (3.1) AmbaUSB=> "Board's Config": RTOS.CV25.LPDDR4.EMMC.WNC.2
+  (3.2) Press the white-button on PCB and Power-On
+  (3.3) AmbaUSB=> Choose Firmware ~/project/argos_2.3.0/rtos/output.64/out/fwprog/bst_bld_atf_sys_dsp_rom_lnx_rfs.elf
+  (3.4) Downloading
+
+(4) Build an app for ambalink (e.g. app_od_seg)
+source rtos/build/maintenance/env/env_set.sh
+source rtos/refapp/svc/env/refapp-svc-env
+cd ambalink_sdk_4_14/output.oem/ambalink/diags/
+make app_od_seg-init
+make app_od_seg-build

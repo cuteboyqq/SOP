@@ -1,0 +1,13 @@
+rots :
+svc_app cv bootflag cmdmode
+===================================
+linux:
+cd /tmp/SD0/bin/app_yolov4_seg
+flexidag_schdr -s
+./app_yolov4_seg
+===================================
+rtos:
+svc_app cv continue
+
+
+

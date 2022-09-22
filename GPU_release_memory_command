@@ -1,0 +1,16 @@
+check what is using your GPU memory with
+
+sudo fuser -v /dev/nvidia*
+Your output will look something like this:
+
+                     USER        PID  ACCESS COMMAND
+/dev/nvidia0:        root       1256  F...m  Xorg
+                     username   2057  F...m  compiz
+                     username   2759  F...m  chrome
+                     username   2777  F...m  chrome
+                     username   20450 F...m  python
+                     username   20699 F...m  python
+Then kill the PID that you no longer need on htop or with
+
+sudo kill -9 PID.
+

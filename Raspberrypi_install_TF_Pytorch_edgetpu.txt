@@ -1,0 +1,40 @@
+
+Install Pytorch and balabala...
+
+1. git clone YOLOV5 github
+
+pip install -r requirement.txt
+
+
+=======================================
+
+Install edgetpu
+
+https://coral.ai/software/#edgetpu-runtime
+
+python3 -m pip install --extra-index-url https://google-coral.github.io/py-repo/ pycoral~=2.0
+
+
+2. download edgetpu_runtime_20220308.zip
+
+	
+unzip edgetpu_runtime_20220308.zip
+
+	
+cd edgetpu_runtime
+
+	
+sudo ./install.sh
+
+
+=================================================
+Install tensorflow
+
+3. pip install tensorflow
+
+Done.
+
+
+=========================================================
+4. camera
+https://www.raspberrypi.com/documentation/accessories/camera.html#libcamera-hello

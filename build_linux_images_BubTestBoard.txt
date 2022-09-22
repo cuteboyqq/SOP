@@ -1,0 +1,47 @@
+2.4 build linux image first:
+- Source cv25 environment and build the linux image
+  $ source rtos/refapp/svc/env/refapp-svc-env
+  $ cd ambalink_sdk_4_14/ambarella
+  $ make AMBA_OUT_TARGET=ambalink TARGET=ambalink prepare_oem
+  $ make O=../output.oem/ambalink cv25_ambalink_ambacv_defconfig
+  $ cd ../output.oem/ambalink
+  $ make BR2_WGET="wget --passive-ftp -nd -t 3 --no-check-certificate"
+  
+ => The linux image files will be generated in /projects/ambalink_sdk_4_14/output.oem/ambalink/images/
+ 
+ 2.5 Copy the linux images files to the folowing RTOS folders:
+ 
+ ~/cv25$ cp ambalink_sdk_4_14/output.oem/ambalink/images/* rtos/refapp/svc/linux_image/cv25/nand/
+ 
+ 2.6 Build the SVC app for the BUB (RTOS + Ambalink)
+ -Compile RTOS source code (By using cv25bub300_svc_icam_cv_nand_imx577_ambalink_deconfig for example)
+ 	$cd rtos/
+ 	
+ 	(optional => rm output/, output.64/ are not required if you just modified some source code.
+ 	$ rm -rf output/
+ 	$ rm -rf output.64/
+ 	)
+ 	
+ 	$ source ./refapp/svc/env/refapp-svc-env
+ 	$  make refapp/svc/cv25bubv300_svc_icam_cv_nand_imx577_ambalink_defconfig
+ 	$ make diags
+ 	$ make -j
+ 	(NOTE: )
+
+
+===================================================================================
+2022-05-06 
+
+	Step 1: copy flexibin0.bin to ambalink_sdk_4_14/pkg/ambacv/arm_framework/app/app_yolov4_seg/flexibin/flexibin_yolov4.bin
+	
+ 	Step 2: source refapp/svc/env/refapp-svc-env
+ 	Step 3: make refapp/svc/cv25bubv300_svc_icam_cv_nand_imx577_ambalink_defconfig
+ 	Step 4: cd ../ambalink_sdk_4_14/output.oem/ambalink/diags/
+ 	
+ 	Step 5:
+ 	rm -rf app_yolov4_seg/
+ 	make app_yolov4_seg-init
+ 	make app_yolov4_seg-build
+ 	
+ 	Step 6:
+ 	copy  ambalink_sdk_4_14/output.oem/ambalink/diags/app_yolov4_seg/linux/bin/app				app_yolov4_seg 到 SD卡後重新執行

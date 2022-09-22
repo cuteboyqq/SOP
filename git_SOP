@@ -1,0 +1,9 @@
+connect to network 
+
+sudo apt-get install git
+
+
+git clone http://172.16.201.32:1999/JNR330/argos2.3.0
+
+username:  21000701
+password: Sb123456

@@ -1,0 +1,3 @@
+Please check how to send the flexidag message, AMBA_ROI_CONFIG_MSG, in pkg/ambacv/arm_framework/app/ folder.
+You can send the ROI message to flexidag by the API, AmbaCV_FlexidagSendMsg(), before you run the flexidag.
+And the related ROI structure is in pkg/ambacv/cv_common/inc/idsp_roi_msg.h.

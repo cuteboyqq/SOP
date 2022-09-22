@@ -1,0 +1,9 @@
+(rpiboot is put on win7 computer)
+
+1.  open rpiboot
+
+2.  connect  Raspberrypi to computer by microUSB to USB
+
+3.  connect power
+
+4. open boot folder

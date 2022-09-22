@@ -1,0 +1,19 @@
+
+Install Pytorch and balabala...
+1. git clone YOLOV5 github
+pip install -r requirement.txt
+
+
+Install edgetpu
+2. download edgetpu_runtime_20220308.zip
+https://coral.ai/software/#edgetpu-runtime
+	unzip edgetpu_runtime_20220308.zip
+
+	cd edgetpu_runtime
+
+	sudo ./install.sh
+
+Install tensorflow
+3. pip install tensorflow
+
+Done.

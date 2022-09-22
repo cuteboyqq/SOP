@@ -1,0 +1,112 @@
+https://www.maxlist.xyz/2018/11/02/git_tutorial/
+
+
+1. Workspace 創建 .git 目錄
+▍如果是一個全新的開始…
+
+在目前工作區 (Workspace) 內建立一個 .git folder
+
+$ git init
+設定 Git config 環境
+$ git config --global user.name "Max"
+
+$ git config --global user.email "user@gmail.com”
+▍如果本來在 GitHub 上有 .git folder…
+
+從 Github 下載資料庫 (Remote Repository) 至目前工作區 (Workspace)
+
+$ git clone <repo URL>
+從 Github 下載資料庫 (Remote Repository)，並且指定分支
+
+$ git clone <repo URL> -b <branch name>
+從 Github下載資料庫 (Remote Repository)，並且指定下載名稱
+
+$ git clone <repo URL> <folder name/path>
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+2. git add 建立索引
+在工作區 (Workspace) 內指定單一檔案建立索引
+$ git add helloword.txt
+
+工作目錄 (Working Directory) 內所有檔案建立索引
+$ git add .
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+3. git commit 至本地資料庫
+將建立索引的檔案提交至本地資料庫 (Local Repository)
+$ git commit -m "add helloword.txt"
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+4. git push 至 GitHub
+如果 Git 目錄內沒有其他分支，可以直接用 git push
+$ git push
+
+上傳所有分支至 Git 目錄
+$ git push --all origin
+
+上傳指定分支至 Git 目錄
+$ git push origin master
+▍查看 Git 記錄相關操作
+查看 Git config 設定
+$ git config --list
+
+查看目前工作目錄 (Working Directory) 中過去 Git commit 記錄
+$ git log # 列出詳細的作者、時間、commit 內容
+
+$ git reflog # 列出 commit 內容
+檢視目前工作目錄 (Working Directory) 中所有檔案的情形
+$ git status
+
+查看目前 Remote 連線位置
+$ git remote -v
+
+git 版本切換
+$ git checkout <版本號> <省略 or 特定文件名稱>
+補充. 認識分支 branch
+在開發軟體時，可能同時會有多人在開發同一功能或修復錯誤，也可能會有多個發佈版本的存在，並且需要針對每個版本進行維護。
+為了能支援同時進行數個功能的增加或版本控制，Git 具備了分支的功能。
+1. 分支建立
+
+$ git branch <Name>
+2. 切換指定支流
+
+$ git checkout <Name>
+
+$ git checkout -b <Name> # 同時建立且切換分支
+3. 查看目前所有本地分支
+
+$ git branch # 查看本地所有分支
+
+$ git branch -a # 查看所有分支(含遠端分支)
+4. 刪除指定分支
+
+$ git branch -d <name>
+5. 分支合併 Merge
+
+$ git checkout master # 先切換到主分支
+
+$ git merge <副分支> # fast-forward
+
+$ git merge <副分支> --no-ff # no-fast-forward
+
+$ git merge --abort # 恢復 Merge 之前
+關於合併的其他方法可以參考此篇：[Git教學] 分支合併: merge 與 rebase 差異
+
+補充. 認識暫存 stash
+▍什麼時候會使用 git stash ?
+
+手邊的工作做到一半，臨時要切換到別的任務，但又不想隨意 commit 時，可以使用 stash 把目前的進度存起來唷！
+
+1. stash 的使用方法
+
+$ git stash save "暫存版本一"
+2. 查看 stash 暫存清單
+
+$ git stash list
+3. 回復暫存版本操作
+
+$ git stash apply <name> # 不會刪除暫存檔
+
+$ git stash pop <name> # 會刪除暫存檔
+4. 刪除暫存 stash
+
+$ git stash drop <name> # 刪除指定暫存
+
+$ git stash clear #  刪除所有暫存檔
