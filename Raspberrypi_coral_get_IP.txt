@@ -57,3 +57,60 @@ nmtui
 
 
 python3.8 -m pip install torch==1.7.0+cpu torchvision==0.8.1+cpu torchaudio==0.7.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+======================================
+Download linux VNC
+https://www.realvnc.com/en/connect/download/viewer/linux/
+
+==========================================================
+check python 32 or 64 bit
+
+import platform
+platform.architecture()
+
+======================================
+unable to connect wifi
+sudo killall wpa_supplicant
+sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant.conf -d -iwlan0
+
+=============================================
+Another version of raspberrypi os 
+http://downloads.raspberrypi.org/raspbian/images/
+https://raspberrypi.stackexchange.com/questions/48050/where-to-find-old-raspbian-release
+
+==============================================================================
+How to install 64bit os  on Raco device:
+
+Step 1 : install 2021/05/07 64bit raspberrypi OS image 
+	'''
+	https://downloads.raspberrypi.org/raspios_arm64/images/
+	'''
+	choose raspios arm64-2021-05-28
+	'''
+	https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2021-05-28/
+	'''
+	install 2021-05-07-raspios-buster-arm64.zip (1.0G)  (this is image file)
+
+Step 2 : At windows comupter open rpiboot
+
+Step 3 : connect Raco and comupter by microUSB and USB line
+
+Step 4 : Power on Raco
+
+Step 5 : Open win32diskimager software (Win32 磁碟映像檔工具)
+
+Step 6 : Burn image by win32diskimager
+
+
+Step 7 : unplug coonnection between Raco and computer
+
+Step 8 : connect Raco through Router
+
+Step 9 : ping router , find the Raco IP address
+
+Step 10 : SSH by Raco IP address
+
+	user:pi (default)
+	password: raspberry (default)   
+
+
