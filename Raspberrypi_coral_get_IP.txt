@@ -81,7 +81,7 @@ https://raspberrypi.stackexchange.com/questions/48050/where-to-find-old-raspbian
 ==============================================================================
 How to install 64bit os  on Raco device:
 
-Step 1 : install 2021/05/07 64bit raspberrypi OS image 
+Step 1 : install 2021/05/07 64bit raspberrypi OS image (Raspberrypi Open source)
 	'''
 	https://downloads.raspberrypi.org/raspios_arm64/images/
 	'''
@@ -91,7 +91,8 @@ Step 1 : install 2021/05/07 64bit raspberrypi OS image
 	'''
 	install 2021-05-07-raspios-buster-arm64.zip (1.0G)  (this is image file)
 
-Step 2 : At windows comupter open rpiboot
+Step 2 : At windows comupter open rpiboot 
+	(double click rpiboot software)
 
 Step 3 : connect Raco and comupter by microUSB and USB line
 
@@ -107,10 +108,12 @@ Step 7 : unplug coonnection between Raco and computer
 Step 8 : connect Raco through Router
 
 Step 9 : ping router , find the Raco IP address 
-	telnet Router: 192.168.66.1
+	telnet Router: sudo putty 
+			192.168.66.1
 	At Router : arp a
 
 Step 10 : SSH by Raco IP address
+	sudo putty
 	192.168.66.185
 	user:pi (default)
 	password: raspberry (default)   
