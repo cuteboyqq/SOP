@@ -117,5 +117,24 @@ Step 10 : SSH by Raco IP address
 	192.168.66.185
 	user:pi (default)
 	password: raspberry (default)   
+	
+======================WIFI Settings=============================================
+/etc/wpa_supplicant/
 
+Step 1 : Set WIFI
+	sudo nano wpa_supplicant.conf
+
+
+	ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+	update_config=1
+	country=TW
+
+	network={
+		ssid="Galaxy A42 5G059A"
+		psk="Sb12345678"
+		key_mgmt=WPA-PSK
+	}
+Step 2 :
+	sudo reboot
+===================================================================
 
