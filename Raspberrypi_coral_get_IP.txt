@@ -96,20 +96,22 @@ Step 2 : At windows comupter open rpiboot
 Step 3 : connect Raco and comupter by microUSB and USB line
 
 Step 4 : Power on Raco
-
+	
 Step 5 : Open win32diskimager software (Win32 磁碟映像檔工具)
 
 Step 6 : Burn image by win32diskimager
-
+	(It takes about 10 minutes)
 
 Step 7 : unplug coonnection between Raco and computer
 
 Step 8 : connect Raco through Router
 
-Step 9 : ping router , find the Raco IP address
+Step 9 : ping router , find the Raco IP address 
+	telnet Router: 192.168.66.1
+	At Router : arp a
 
 Step 10 : SSH by Raco IP address
-
+	192.168.66.185
 	user:pi (default)
 	password: raspberry (default)   
 
