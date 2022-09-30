@@ -3,6 +3,11 @@ connect to WNC network by  wirednetwork
 sudo ifconfig enp3s0 down
 sudo ifconfig enp3s0 hw ether 58:6C:25:38:93:B1
 sudo ifconfig enp3s0 up
+======================================================
+Raspberry pi 
+
+sudo rfkill list all
+rfkill unblock wifi 
 ========================================================
 connect to network 
 
