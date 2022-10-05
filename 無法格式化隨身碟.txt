@@ -1,0 +1,12 @@
+https://tw.easeus.com/partition-manager-tips/fix-cannot-format-usb-flash-drive-error.html
+
+1. 將需要格式化的USB或其他裝置連接到電腦。
+2. 按Win+R鍵以打開「執行」視窗，輸入：cmd並按下Enter鍵以打開命令提示字元。
+3. 選擇「以管理員身份執行」，輸入：diskpart並按下Enter鍵。
+4. 輸入：list disk並按下Enter鍵，將顯示電腦上所有磁碟。
+5. 輸入：select disk 2並按下Enter鍵。(2為您的USB磁碟機代號。)
+6. 輸入：clean並按下Enter鍵。
+7. 輸入：create partition primary並按下Enter鍵。
+8. 輸入：format fs=fat32或format fs=ntfs quick並按下Enter鍵，重設USB為FAT32或NTFS。
+9. 輸入：assign並給予您的USB一個新的磁碟機代號。然後輸入：exit完成格式化。
+在此之後，您就可以再次使用USB儲存新資料了。
