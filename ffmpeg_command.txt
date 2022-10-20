@@ -1,0 +1,37 @@
+#In config.txt
+
+[all]
+
+dtoverlay=vc4-kms-v3d
+
+#camera_auto_detect=1
+
+#gpu_mem=128
+
+start_x=1
+
+dtoverlay=imx219,media-controller=0
+
+gpu_mem=256
+
+ 
+
+ 
+
+#Using Raspberry Pi Camera with ffmpeg with H264 Hardware Encoding
+
+ffmpeg -f video4linux2 -input_format h264 -video_size 1280x720 -framerate 30 -i /dev/video0 -c:v h264_v4l2m2m -vcodec copy -an test.h264
+
+ 
+
+#Playback
+
+ffplay test.h264
+
+ffplay -codec:v h264_v4l2m2m test.h264
+
+ 
+
+#Install OpenCV 4.5 on Raspberry 64 OS
+
+Search by Google to see how to install OpenCV+ffmpeg over RPI4
