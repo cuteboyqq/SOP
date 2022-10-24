@@ -145,4 +145,10 @@ https://itheo.tech/install-python-38-on-a-raspberry-pi
 https://itheo.tech/install-python-39-on-raspberry-pi
 vcgencmd get_camera
 
-
+=======================================================================
+開機自動執行指令
+/etc/init.d
+或是 
+vi /etc/rc.local
+在裡面新增要執行的指令
+add command in rc.local, and raspberry pi will do command at start up
