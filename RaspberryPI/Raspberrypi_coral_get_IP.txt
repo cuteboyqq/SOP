@@ -1,0 +1,157 @@
+router
+telnet
+192.168.66.1
+
+
+arp a
+裝置插網路線接上router
+再打一次 arp a
+新多出來的ip 就是 device的ip
+
+192.168.66.186
+
+telnet 192.168.66.XX (裝置的ip)
+
+
+遠端桌面連線 ： 開啟VNC
+輸入: 192.168.66.1
+帳號： pi
+
+密碼：123
+
+
+get camera:
+===============================
+vcgencmd get_camera
+
+
+taking picture:
+=============================
+raspistill -v -o test0.jpg
+
+Filming video:
+=============================
+raspivid -o  myvideo.h264 --width 1280 --height 1024 --framerate 30 --timeout 10000
+
+
+=======================================
+lsblk
+blkid /dev/mmcblk*
+sudo fdisk -l
+
+
+use wifi
+=================================
+cd  /etc/wpa_supplicant
+nano wpa_supplicant.conf (or use vi)
+
+iwconfig
+iw dev wlo1 info
+
+sudo raspi-config
+
+nmtui
+
+用一般的樹莓派 /etc/wpa_supplicant  vi wpa_supplicant.conf
+
+將新的樹莓派 改成衣模一樣的設定後,重開機 sudo reboot
+
+然後  在新的樹莓派打 ifoncifg找到wifi的ip 就可以用ip SSH連線上了（無線）
+
+
+python3.8 -m pip install torch==1.7.0+cpu torchvision==0.8.1+cpu torchaudio==0.7.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+======================================
+Download linux VNC
+https://www.realvnc.com/en/connect/download/viewer/linux/
+
+==========================================================
+check python 32 or 64 bit
+
+import platform
+platform.architecture()
+
+======================================
+unable to connect wifi
+sudo killall wpa_supplicant
+sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant.conf -d -iwlan0
+
+=============================================
+Another version of raspberrypi os 
+http://downloads.raspberrypi.org/raspbian/images/
+https://raspberrypi.stackexchange.com/questions/48050/where-to-find-old-raspbian-release
+
+==============================================================================
+How to install 64bit os  on Raco device:
+
+Step 1 : install 2021/05/07 64bit raspberrypi OS image (Raspberrypi Open source)
+	'''
+	https://downloads.raspberrypi.org/raspios_arm64/images/
+	'''
+	choose raspios arm64-2021-05-28
+	'''
+	https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2021-05-28/
+	'''
+	install 2021-05-07-raspios-buster-arm64.zip (1.0G)  (this is image file)
+
+Step 2 : At windows comupter open rpiboot (rapiboot can install on internet) 
+	(double click rpiboot software)
+
+Step 3 : connect Raco and comupter by microUSB and USB line
+
+Step 4 : Power on Raco
+	
+Step 5 : Open win32diskimager software (Win32 磁碟映像檔工具)
+
+Step 6 : Burn image by win32diskimager
+	(It takes about 10 minutes)
+
+Step 7 : unplug coonnection between Raco and computer
+
+Step 8 : connect Raco through Router
+
+Step 9 : ping router , find the Raco IP address 
+	telnet Router: sudo putty 
+			192.168.66.1
+	At Router : arp a
+
+Step 10 : SSH by Raco IP address
+	sudo putty
+	192.168.66.185
+	user:pi (default)
+	password: raspberry (default)   123 
+	
+======================WIFI Settings=============================================
+/etc/wpa_supplicant/
+
+Step 1 : Set WIFI
+	sudo nano wpa_supplicant.conf
+
+
+	ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+	update_config=1
+	country=TW
+
+	network={
+		ssid="Galaxy A42 5G059A"
+		psk="Sb12345678"
+		key_mgmt=WPA-PSK
+	}
+Step 2 :
+	sudo reboot
+===================================================================
+install python3.9
+install python3.9
+install python3.9
+install python3.9
+https://itheo.tech/install-python-38-on-a-raspberry-pi
+https://itheo.tech/install-python-39-on-raspberry-pi
+vcgencmd get_camera
+
+=======================================================================
+開機自動執行指令
+/etc/init.d
+或是 
+vi /etc/rc.local
+在裡面新增要執行的指令
+add command in rc.local, and raspberry pi will do command at start up
