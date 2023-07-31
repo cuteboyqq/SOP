@@ -21,6 +21,9 @@ Step 3 : Create a directory for building fleidag
 	command:
 	$ cd /home/csi/projects/bub_cv25_adk2.3.0/flexidags (Alister put all flexidags folder)
 	$ mkdir flexidag_yolov4_384_7cls
+	$ source rtos/build/maintenance/env/env_set.sh
+	$ source rtos/refapp/svc/env/refapp-svc-env
+	$ remoteconfig ${RTOS}/refapp/cnn_testbed/cv/public_nn/diags/picinfo/yolov4 (your full path of target diag)
 	$ vi Makefile  (Start setting parameter)
 	$ make
 	
