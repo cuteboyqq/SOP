@@ -1,0 +1,41 @@
+[xxx] 
+#==============================================================================================
+
+sudo adduser ali
+...
+su ali
+#====
+docker pull ubuntu:20.04
+docker run -it ...
+docker stop
+docker start
+#=============================================================================================
+[load image]
+docker load -i [image_name.tar]
+#=============================================================================================
+[run image]
+docker run -it --net=host -v [the/local/dir]:[the/docker/dir] [image_name]
+
+adduser ali
+...
+in docker, type :
+sudo usermod -aG sudo yoursuername
+
+
+[install sudo tool]
+apt-get update && \
+      apt-get -y install sudo
+#=============================================================================================
+https://www.ruyut.com/2023/06/docker-commit-container-backup.html
+[commit image]
+[依照當前容器產生 image]
+docker commit -m [mesage] -a [auther] [save container] [new container name]:[tag]
+example:
+docker commit -m test_commit -a ali 90  amba:v2
+#=============================================================================================
+[透過 docker image 產生 tar 檔案]
+docker save [my_image] > [my_image.tar]
+#===============================================================================================
+[將 tar 檔案還原為 docker image]
+docker load < my_image.tar
+
