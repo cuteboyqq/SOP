@@ -1,0 +1,2 @@
+ ./build/test_eazyai -m 1 -d 0 -n yolov8 --model_path ../../../out/onnx/demo_networks/onnx_yolov8n_det/out_onnx_yolov8n_det_parser/onnx_yolov8n_det.json --lua_file resource/lua/yolov8_det.lua  --isrc "i:images=../../../onnx/demo_networks/yolov8/dra_img|t:jpg|c:rgb" --label_path resource/coco_labels.txt  --output_dir ./ 
+

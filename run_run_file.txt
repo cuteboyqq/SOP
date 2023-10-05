@@ -1,0 +1,6 @@
+How to open a RUN file
+To execute a RUN file on Linux:
+
+Open the Ubuntu terminal and move to the folder in which you've saved your RUN file.
+Use the command chmod +x yourfilename.run to make your RUN file executable.
+Use the command ./yourfilename.run to execute your RUN file.
