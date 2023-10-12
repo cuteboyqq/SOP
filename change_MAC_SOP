@@ -4,6 +4,65 @@ sudo ifconfig enp3s0 down
 sudo ifconfig enp3s0 hw ether 58:6C:25:38:93:B1
 sudo ifconfig enp3s0 up
 ======================================================
+AMBA EVK Board
+2023-10-12
+Step 0 : connect AMBA EVK board to computer with wired lane
+Step 1 : Open ternimal and type below command to change MAC address
+ 
+	AMBA ip: 192.168.8.2
+	RTX4080 ip : 192.168.50.76
+	sudo ifconfig enp3s0 down
+	sudo ifconfig enp3s0 192.168.8.10 netmask 255.255.255.0
+	sudo ifconfig enp3s0 up
+Step 2 :
+	ping 192.168.8.2
+	
+Step 3 : install FileZilla
+	sudo apt install filezilla
+	
+Step 4 : before upload model.bin, type command at dir [USER_DIR]/unit_test :
+	cavalry_gen -V 2.2.8.3 -d ../../../out/onnx/demo_networks/onnx_yolov8n_det/out_onnx_yolov8n_det_parser/vas_output/ 
+	-f ../../../out/onnx/demo_networks/onnx_yolov8n_det/cavalry_onnx_yolov8n_det/onnx_yolov8n_det_cavalry.bin 
+
+Step 4.1 : Create folder in AMBA EVK board
+	sdcard/yolov8
+	sdcard/yolov8/model
+	sdcard/yolov8/in
+	sdcard/yolov8/labels
+	sdcard/yolov8/out
+	
+	command: mkdir sdcards
+		cd sdcard
+		mkdir yolov8
+		cd yolov8
+		mkdir model
+		mkdir in
+		mkdir labels
+		mkdir out
+		
+Step 5 : upload model.bin to sdcard/yolov8/model in 192.168.8.2 by Filezilla
+	upload images into sdcard/yolov8/in
+	upload labels.txt into sdcard/yolov8/labels
+
+Step 5-1 :
+	command on AMBA EVK board:
+		 rmmod cavalry 
+		 modprobe cavalry
+		 cavalry_load -f /lib/firmware/cavalry.bin -r
+
+Step 6 : Test File model on AMBA EVK board (below is YoloV5 model example)
+	
+ board # test_eazyai -m 1 -d 0 -n yolov5 \
+        --model_path /sdcard/yolov5/model/onnx_yolov5s_cavalry.bin \
+        --lua_file /usr/share/ambarella/eazyai/lua/yolov5s.lua \
+        --isrc "i:images=/sdcard/yolov5/in|t:jpg|c:rgb" \
+        --label_path /sdcard/yolov5/labels/coco_class_names.txt --class_num 80 \
+        --output_dir /sdcard/yolov5/out/
+
+Step 7 : Test infer time :
+	command : 
+	test_nnctrl -b /sdcard/yolov8/model/onnx_yolov8n_det_cavalry.bin -e -c --in images -t 10
+======================================================
 Raspberry pi 
 
 sudo rfkill list all
