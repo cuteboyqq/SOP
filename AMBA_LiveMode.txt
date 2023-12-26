@@ -19,6 +19,9 @@ Initialize the environment on the CV board.
 
 board # quick_ipc.sh --vin os05a10 --stream_A 1080p --hdmi 1080p --enc_dummy_latency 4 --reallocate_mem overlay,0x01200000
 
+board # quick_ipc.sh --vin os05a10 --stream_A 1920x1080 --vsrc_mode 1920x1080 vsrc_fps 0  --enc_dummy_latency 4 
+
+
  board # /ali/yolov8/test_yolov8 -m 0 -s 0 -d 0 -r -n yolov8 
  	--model_path /ali/yolov8/model/onnx_yolov8n_det_cavalry.bin  
  	--lua_file /usr/share/ambarella/eazyai/lua/yolov8_det.lua  

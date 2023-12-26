@@ -1,0 +1,131 @@
+./probe_os05a10.sh 
+modprobe cavalry
+
+cavalry_load -f /lib/firmware/cavalry.bin -r
+rtsp_server &
+ test_encode -i 0 --hdmi 1080p --resource-cfg cv25_vin0_5M_linear.lua 
+ test_encode -A -h 1080p -b 0 -e
+
+
+===================AMBA EVK board Live model===========================
+
+Step 1 : Initialize the environment on the CV board. 
+	command on AMBA EVK board:
+		 [board] # rmmod cavalry 
+		 [board] # modprobe cavalry
+		 [board] # cavalry_load -f /lib/firmware/cavalry.bin -r
+		 
+Step 2 : Initialize the sensor:
+
+ [board] # quick_ipc.sh --vin os05a10 --stream_A 1080p --hdmi 1080p --enc_dummy_latency 4 --reallocate_mem overlay,0x01200000
+
+
+Step 3: Live mode command:
+
+  Below command using ultralytics YOLOV8 80 class model
+  
+ [board] # /ali/yolov8/test_yolov8 -m 0 -s 0 -d 0 -r -n yolov8 
+ 	--model_path /ali/yolov8/model/onnx_yolov8n_det_cavalry.bin  
+ 	--lua_file /usr/share/ambarella/eazyai/lua/yolov8_det.lua  
+ 	--label_path /ali/yolov8/labels/coco_class_names.txt 
+ 	--class_num 80
+ 
+  Below command using Lee's YOLOV8 4 class model
+  
+ [board] # /ali/yolov8/test_yolov8 -m 0 -s 0 -d 0 -r -n yolov8 
+ 	--model_path /ali/yolov8/model/onnx_yolov8n_det_cavalry.bin  
+ 	--lua_file /usr/share/ambarella/eazyai/lua/yolov8_det.lua  
+ 	--label_path /ali/yolov8/labels/coco_4.txt 
+ 	--class_num 4
+
+        
+ i. yolov5s: [below example on AMBA WEB]
+
+    [board] # test_eazyai -m 0 -s 0 -d 0 -r -n yolov5 
+    --model_path /sdcard/yolov5/model/onnx_yolov5s_cavalry.bin 
+    --lua_file /usr/share/ambarella/eazyai/lua/yolov5s.lua 
+    --label_path /sdcard/yolov5/labels/coco_class_names.txt --class_num 80
+    
+    
+================================AMBA EVK board File mode=====================================================================================
+File mode on X86 :
+
+Step 5-1 :
+	command on AMBA EVK board:
+		 rmmod cavalry 
+		 modprobe cavalry
+		 cavalry_load -f /lib/firmware/cavalry.bin -r
+		 
+ [x86] # ./build/test_yolov8 -m 1 -d 0 -n yolov8 
+		 --model_path ../../../out/onnx/demo_networks/onnx_yolov8n_det/out_onnx_yolov8n_det_parser/onnx_yolov8n_det.json 
+		 --lua_file resource/lua/yolov8_det.lua  
+		 --isrc "i:images=../../../onnx/demo_networks/yolov8/dra_img|t:jpg|c:rgb" 
+		 --label_path resource/coco_labels.txt  
+		 --output_dir ./ 
+ 
+ ======================================================
+File mode on AMBA EVK Board :
+2023-10-12
+Step 0 : connect AMBA EVK board to computer with wired lane
+Step 1 : Open ternimal and type below command to change MAC address
+ 
+	AMBA ip: 192.168.8.2
+	RTX4080 ip : 192.168.50.76
+	[x86] # sudo ifconfig enp3s0 down
+	[x86] # sudo ifconfig enp3s0 192.168.8.10 netmask 255.255.255.0
+	[x86] # sudo ifconfig enp3s0 up
+Step 2 :
+	[x86] # ping 192.168.8.2
+	
+Step 3 : install FileZilla
+	[x86] # sudo apt install filezilla
+
+
+Step 4 : before upload model.bin, type command at dir [USER_DIR]/unit_test :
+	[x86] # cavalry_gen -V 2.2.8.3 -d ../../../out/onnx/demo_networks/onnx_yolov8n_det/out_onnx_yolov8n_det_parser/vas_output/ 
+	-f ../../../out/onnx/demo_networks/onnx_yolov8n_det/cavalry_onnx_yolov8n_det/onnx_yolov8n_det_cavalry.bin 
+
+
+Step 4.1 : Create folder in AMBA EVK board
+	sdcard/yolov8  
+	sdcard/yolov8/model  (put onnx_yolov8n_det_cavalry.bin  here)
+	sdcard/yolov8/in (put image.jpg here)
+	sdcard/yolov8/labels (put coco_class_names.txt here)
+	sdcard/yolov8/out (here will output inference result images with bounding box)
+	
+	command: 
+	[board] # mkdir sdcards
+	[board] # cd sdcard
+	[board] # mkdir yolov8
+	[board] # cd yolov8
+	[board] # mkdir model
+	[board] # mkdir in
+	[board] # mkdir labels
+	[board] # mkdir out
+
+Step 5 : upload model.bin to sdcard/yolov8/model in 192.168.8.2 by Filezilla
+	upload images into sdcard/yolov8/in
+	upload labels.txt into sdcard/yolov8/labels
+
+
+Step 5-1 :
+	command on AMBA EVK board:
+		[board] # rmmod cavalry 
+		[board] # modprobe cavalry
+		[board] # cavalry_load -f /lib/firmware/cavalry.bin -r
+		 
+
+Step 6 : Test File model on AMBA EVK board (below is YoloV5 model example)
+	
+ [board] # test_eazyai -m 1 -d 0 -n yolov8 \
+        --model_path /sdcard/yolov5/model/onnx_yolov8n_det_cavalry.bin \
+        --lua_file /usr/share/ambarella/eazyai/lua/yolov8_det.lua \
+        --isrc "i:images=/sdcard/yolov8/in|t:jpg|c:rgb" \
+        --label_path /sdcard/yolov8/labels/coco_class_names.txt --class_num 80 \
+        --output_dir /sdcard/yolov8/out/
+
+Step 7 : Test infer time :
+	command : 
+ [board] # test_nnctrl -b /sdcard/yolov8/model/onnx_yolov8n_det_cavalry.bin -e -c --in images -t 10
+======================================================
+
