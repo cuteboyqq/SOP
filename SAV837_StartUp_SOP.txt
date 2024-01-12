@@ -1,0 +1,21 @@
+SVA837  Start up SOP
+================================================
+putty 
+account : root
+password : ALUDS$#q
+
+Step 1 : in putty, set time
+[putty] date -s @[unix timestamp]
+
+Step 2 : kill the cardv (default one)
+[putty] ps
+[putty] kill -9 PID
+
+Step 3: Test with cardv , and upload the cardv to this folder
+[putty] cd customer
+[putty] tftp -h (help)
+[putty] 
+
+
+ 
+

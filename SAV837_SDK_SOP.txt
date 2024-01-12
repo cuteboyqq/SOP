@@ -1,0 +1,21 @@
+1. Go to GitLab website 
+	http://172.16.201.30/sigmastar837/sdk-kernel-5.10
+
+2. git clone the repo :
+	 git clone http://172.16.201.30/sigmastar837/sdk-kernel-5.10.git
+	 
+3. go to docker file
+	cd ./sdk-kernel-5.10/docker
+
+4. build the image
+	docker build -t sav837:v1 .
+	
+5. create the container
+	docker run -it --net=host -v /home/ali/Projects/GitHub_Code/WNC/sdk-kernel-5.10/:/home/ali sav837:v2
+	
+6. cd ../home/ali
+
+7. make clean_all
+
+8. make build_all
+	
