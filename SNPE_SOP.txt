@@ -31,12 +31,36 @@ Step2: Install Android NDK:
 		Get into the environment
 	5) $ source env/bin/activate
 	--------------------------------------------------------------------------
-	[Hint] You need to remove "anaconda" first~~~ [Do not use anaconda in the future is the best way]
+	[Hint] You need to remove "anaconda" software first before install C++ opencv~~~ 
+	[Hint] Recommand that do not use "anaconda" software in the future is the best way
 	
-	6) install opencv-python 4.X version (because build ADAS_CES needs C++ opencv4.x)
-		SOP : https://www.geeksforgeeks.org/how-to-install-opencv-in-c-on-linux/
-		https://opencv.org/releases/
-		choose version 4.4~4.6 ??
+	6) install opencv C++ 4.X version (because build ADAS_CES needs C++ opencv4.x)
+		detail SOP link  : https://www.geeksforgeeks.org/how-to-install-opencv-in-c-on-linux/
+		
+		Step 0: Installing required packages and tools
+			$ sudo apt install -y g++ cmake make git libgtk2.0-dev pkg-config
+		
+		Step 1 : Download the source. 
+			https://opencv.org/releases/
+			choose version 4.4~4.6 ??
+		
+			$ git clone https://github.com/opencv/opencv.git
+			
+		Step 2 :Next, generate the build scripts using cmake
+			$ mkdir -p build
+			$ cd build
+			$ cmake ../opencv
+			
+		Step 3 : At last, build the source using make
+			$ make -j4
+			
+		Step 4 : Install the OpenCV package
+			$ sudo make install
+			
+	That’s it. If you did not encounter any error then OpenCV is installed successfully on your Linux system. 
+	The header files are at the location 
+	
+		/usr/local/include/opencv4
 	--------------------------------------------------------
 		Purpose : build the ADAS_CES
 	7) cd [USER DIR]/ADAS_CES
