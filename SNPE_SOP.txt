@@ -1,0 +1,89 @@
+// === Qualcomm Snapdragon Nerual Processing Engine (SNPE) Setup === //
+
+- [1] OS: Ubuntu 18.04 20.04 only
+
+- [2] Python: 3.6 only
+-----------------------------------------------------------------
+=> "/usr/bin/python" and "python" should point to Python 3. It can be achieved using following steps :-
+        1) Create list of alternatives for python
+              $ sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+              $ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 2
+        2) Check the python list
+              $ update-alternatives --list python
+        3) update alternative to select required python version
+              $ sudo update-alternatives --config python
+
+
+- [3] Android NDK: android-ndk-r17c-linux-x86
+-----------------------------------------------------------------
+Step1: Download link: https://github.com/android/ndk/wiki/Unsupported-Downloads
+Step2: Install Android NDK:
+	1) Extract Anroid NDK to somewhere (for example: /Project/QCS6490)
+	2) Get absoulte path of extracted Android NDK
+	3) $ sudo vi /etc/profile and add these two lines:
+		
+		export ANDROID_NDK_ROOT=/home/[USERNAME]/Project/QCS6490/android-ndk-r17c
+		export PATH=${PATH}:$ANDROID_NDK_ROOT
+	
+	4) $ source /etc/profile
+	
+	----------Alister add SOP 2024-01-12-------------------------
+		Get into the environment
+	5) $ source env/bin/activate
+	--------------------------------------------------------------------------
+	[Hint] You need to remove "anaconda" first~~~ [Do not use anaconda in the future is the best way]
+	
+	6) install opencv-python 4.X version (because build ADAS_CES needs C++ opencv4.x)
+		SOP : https://www.geeksforgeeks.org/how-to-install-opencv-in-c-on-linux/
+		https://opencv.org/releases/
+		choose version 4.4~4.6 ??
+	--------------------------------------------------------
+		Purpose : build the ADAS_CES
+	7) cd [USER DIR]/ADAS_CES
+	8) make
+                                        
+Step3: Test Android NDK:
+	1) ndk-build -v  => if you see NDK information, that means you install NDK successfully.
+
+
+- [4] Android ADB:
+-----------------------------------------------------------------
+Step1. Download Android ADB
+	1) sudo apt-get install android-tools-adb
+	2) sudo adb start-server
+
+Step2. Connect Android device to PC and get Device ID:
+	1) lsusb
+	
+	Result:
+	Bus 002 Device 002: ID 8087:8000 Intel Corp.
+	Bus 001 Device 002: ID 8087:8008 Intel Corp.
+	Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+	Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+	Bus 003 Device 092: ID 12d1:107e Huawei Technologies Co., Ltd.	---> Use Huawei phone as an example
+	Bus 003 Device 004: ID 04ca:7034 Lite-On Technology Corp.
+	Bus 003 Device 003: ID 093a:2521 Pixart Imaging, Inc. Optical Mouse
+
+Step3. echo 0x12d1 > ~/.android/adb_usb.ini
+
+Step4. 
+	1) touch /etc/udev/rules.d/70-android.rules
+	2) vi /etc/udev/rules.d/70-android.rules
+	3) add your device information:
+		
+		SUBSYSTEM=="usb", ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="107e", MODE="0666"
+	
+	4) chmod 666 /etc/udev/rules.d/70-android.rules
+
+Step5.
+	1) service udev restart
+	2) adb kill-server
+	3) adb start-server
+	4) adb devices     	----->   If you see your device information that means successfully
+					 If not, make sure you enable "USB debug mode" of your device
+
+- [5] ONNX Setup
+-----------------------------------------------------------------
+	1) pip install -U onnx==1.6.0
+	2) source bin/envsetup.sh -o $ONNX_DIR
+	   where $ONNX_DIR is the path to the ONNX installation.  ( /usr/local/lib/python3.6/dist-packages/onnx
